@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qurinom_solutions_task_chat_app/helper/api_base_helper.dart';
-import 'package:qurinom_solutions_task_chat_app/helper/api_url.dart';
 import 'package:qurinom_solutions_task_chat_app/view/home_screen.dart';
 import 'package:qurinom_solutions_task_chat_app/view_model/provider/login_provider.dart';
-import '../view_model/provider/checkBoxProvider.dart';
+import '../view_model/provider/checkBox_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -29,6 +27,14 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: Image.asset("assets/quirnom_solutions.jpg"),
+                ),
+              ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Email"),
                 controller: nameController,
@@ -87,11 +93,14 @@ class LoginScreen extends StatelessWidget {
                               )
                               .then((data) {
                                 print(data);
+                                print("${data['data']['user']['_id']}");
                                 if (data != null) {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => HomeScreen(),
+                                      builder: (context) => HomeScreen(
+                                        userId: data['data']['user']['_id'],
+                                      ),
                                     ),
                                   );
                                 }

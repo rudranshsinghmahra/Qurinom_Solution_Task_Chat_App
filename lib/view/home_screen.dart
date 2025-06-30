@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qurinom_solutions_task_chat_app/view_model/provider/chat_provider.dart';
 
+import 'chat_history_screen.dart';
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.userId});
+
+  final String userId;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,7 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ChatProvider>(context, listen: false).fetchHomeScreenChat();
+      Provider.of<ChatProvider>(
+        context,
+        listen: false,
+      ).fetchHomeScreenChat(widget.userId);
     });
   }
 
@@ -31,7 +38,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: chatProvider.chatList.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text("${chatProvider.chatList[index]['chatId']}"),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatHistoryScreen(
+                              chatId: chatProvider.chatList[index]['_id'],
+                            ),
+                          ),
+                        );
+                      },
+                      title: chatProvider.chatList[index]['lastMessage'] != null
+                          ? Text(
+                              chatProvider
+                                  .chatList[index]['lastMessage']['content'],
+                            )
+                          : Text(""),
                     );
                   },
                 );

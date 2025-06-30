@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart';
 
 class ApiBaseHelper {
@@ -54,6 +53,8 @@ class ApiBaseHelper {
   dynamic _response(Response response) {
     switch (response.statusCode) {
       case 200:
+        return json.decode(response.body.toString());
+      case 201:
         return json.decode(response.body.toString());
       default:
         throw Exception('Error occurred : ${response.statusCode}');

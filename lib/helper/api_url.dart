@@ -5,9 +5,19 @@ Uri userLoginApiUrl() {
   return url;
 }
 
-Uri homePageChatApiUrl() {
+Uri homePageChatApiUrl(String userId) {
+  final url = Uri.parse("http://45.129.87.38:6065/chats/user-chats/$userId");
+  return url;
+}
+
+Uri chatHistoryApiUrl(String chatId) {
   final url = Uri.parse(
-    "http://45.129.87.38:6065/messages/get-messagesformobile/679bbd688c09df5b75cd1070",
+    "http://45.129.87.38:6065/messages/get-messagesformobile/$chatId",
   );
+  return url;
+}
+
+Uri sendMessageApiUrl() {
+  final url = Uri.parse("http://45.129.87.38:6065/messages/sendMessage");
   return url;
 }
